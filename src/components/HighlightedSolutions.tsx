@@ -4,8 +4,10 @@ import { ProjectDetailsPanel } from './ProjectDetailsPanel';
 import { getValidImageUrl } from '../utils/imageUtils';
 import type { Project } from '../types/project';
 import '../css/styles.css';
+import { useNavigate } from 'react-router-dom';
 
 export function HighlightedSolutions() {
+  const navigate = useNavigate();
   const { projects } = useProjects();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   
@@ -31,7 +33,7 @@ export function HighlightedSolutions() {
           <div 
             key={project.id} 
             className="group cursor-pointer w-[340px]"
-            onClick={() => setSelectedProject(project)}
+            onClick={() => navigate(`/solution/${project.id}`)}
           >
             <div className="relative h-[340px] mb-4 overflow-hidden rounded-image">
               <img

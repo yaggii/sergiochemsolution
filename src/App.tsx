@@ -9,6 +9,7 @@ import { TechnicalAreas } from './components/technical-areas/TechnicalAreas';
 import { WorldMap } from './components/WorldMap';
 import { SolutionForm } from './components/SolutionForm';
 import { Footer } from './components/Footer';
+import { SolutionPage } from './components/solution/SolutionPage';
 import { useProjects } from './hooks/useProjects';
 import { Loader2 } from 'lucide-react';
 
@@ -67,6 +68,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <MainApp />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/solution/:id"
+        element={
+          <ProtectedRoute>
+            <SolutionPage />
           </ProtectedRoute>
         }
       />
