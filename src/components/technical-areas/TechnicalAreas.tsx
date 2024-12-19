@@ -11,7 +11,14 @@ export function TechnicalAreas() {
   const [selectedArea, setSelectedArea] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const { projects } = useProjects();
-  const [emblaRef] = useEmblaCarousel({
+  const [emblaRefTop] = useEmblaCarousel({
+    loop: true,
+    dragFree: true,
+    containScroll: 'trimSnaps',
+    slidesToScroll: 2,
+    draggable: true
+  });
+  const [emblaRefBottom] = useEmblaCarousel({
     loop: true,
     dragFree: true,
     containScroll: 'trimSnaps',
@@ -32,15 +39,9 @@ export function TechnicalAreas() {
     ? projects.filter(project => project.technicalArea === selectedArea)
     : [];
 
-  // Create pairs of categories for 2x2 grid
-  const categoryPairs = CATEGORIES.reduce<Category[][]>((acc, category, index) => {
-    if (index % 4 === 0) {
-      acc.push([category]);
-    } else {
-      acc[Math.floor(index / 4)].push(category);
-    }
-    return acc;
-  }, []);
+  // Split categories into two rows
+  const topRowCategories = CATEGORIES.slice(0, Math.ceil(CATEGORIES.length / 2));
+  const bottomRowCategories = CATEGORIES.slice(Math.ceil(CATEGORIES.length / 2));
 
   return (
     <section className="mb-16">
@@ -54,19 +55,29 @@ export function TechnicalAreas() {
         </button>
       </div>
 
+      <div className="relative mb-8">
+        <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRefTop}>
+          <div className="flex gap-7">
+            {topRowCategories.map((area) => (
+              <TechnicalAreaCard
+                key={area}
+                area={area}
+                onClick={() => handleAreaClick(area)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="relative">
-        <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
-          <div className="flex">
-            {categoryPairs.map((pair, pairIndex) => (
-              <div key={pairIndex} className="flex-[0_0_100%] min-w-0 flex flex-wrap">
-                {pair.map((area) => (
-                  <TechnicalAreaCard
-                    key={area}
-                    area={area}
-                    onClick={() => handleAreaClick(area)}
-                  />
-                ))}
-              </div>
+        <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRefBottom}>
+          <div className="flex gap-7">
+            {bottomRowCategories.map((area) => (
+              <TechnicalAreaCard
+                key={area}
+                area={area}
+                onClick={() => handleAreaClick(area)}
+              />
             ))}
           </div>
         </div>
