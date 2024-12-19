@@ -1,0 +1,1 @@
+export { TechnicalAreas } from './TechnicalAreas';
